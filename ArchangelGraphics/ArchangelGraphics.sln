@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArchangelGraphics", "ArchangelGraphics\ArchangelGraphics.vcxproj", "{2447A79C-842A-4052-8EAC-78B706C06752}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2447A79C-842A-4052-8EAC-78B706C06752}.Debug|x64.ActiveCfg = Debug|x64
+		{2447A79C-842A-4052-8EAC-78B706C06752}.Debug|x64.Build.0 = Debug|x64
+		{2447A79C-842A-4052-8EAC-78B706C06752}.Release|x64.ActiveCfg = Release|x64
+		{2447A79C-842A-4052-8EAC-78B706C06752}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {869FCB1D-3640-4949-B17E-80279F8C74D6}
+	EndGlobalSection
+EndGlobal
