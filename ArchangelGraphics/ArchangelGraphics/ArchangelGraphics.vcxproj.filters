@@ -24,6 +24,9 @@
     <ClCompile Include="Source\ExtraVulkanLoaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GPUFeaturesSupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internal_Libraries\glfw\include\GLFW\glfw3.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\ExtraVulkanLoaders.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GPUFeaturesSupport.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

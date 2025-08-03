@@ -1,4 +1,7 @@
 ﻿  HelloTriangleApplication.cpp
-C:\Users\User\Desktop\Projects\Archangel\ArchangelGraphics\ArchangelGraphics\ArchangelGraphics\Source\HelloTriangleApplication.cpp(89,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\User\Desktop\Projects\Archangel\ArchangelGraphics\ArchangelGraphics\ArchangelGraphics\Source\HelloTriangleApplication.cpp(95,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\User\Desktop\Projects\Archangel\ArchangelGraphics\ArchangelGraphics\ArchangelGraphics\Source\HelloTriangleApplication.cpp(161,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\User\Desktop\Projects\Archangel\ArchangelGraphics\ArchangelGraphics\ArchangelGraphics\Source\HelloTriangleApplication.cpp(167,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\User\Desktop\Projects\Archangel\ArchangelGraphics\ArchangelGraphics\ArchangelGraphics\Source\HelloTriangleApplication.cpp(378,58): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+  Main.cpp
+  Generating Code...
   ArchangelGraphics.vcxproj -> C:\Users\User\Desktop\Projects\Archangel\ArchangelGraphics\ArchangelGraphics\ArchangelGraphics\Executables\Debug-x64\ArchangelGraphics.exe

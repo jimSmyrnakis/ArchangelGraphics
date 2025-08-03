@@ -1,9 +1,8 @@
-﻿  ExtraVulkanLoaders.cpp
-  HelloTriangleApplication.cpp
+﻿  HelloTriangleApplication.cpp
   Main.cpp
   Generating code
-  165 of 358 functions (46.1%) were compiled, the rest were copied from previous compilation.
-    29 functions were new in current compilation
-    22 functions had inline decision re-evaluated but remain unchanged
+  296 of 571 functions (51.8%) were compiled, the rest were copied from previous compilation.
+    213 functions were new in current compilation
+    44 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   ArchangelGraphics.vcxproj -> C:\Users\User\Desktop\Projects\Archangel\ArchangelGraphics\ArchangelGraphics\ArchangelGraphics\Executables\Release-x64\ArchangelGraphics.exe

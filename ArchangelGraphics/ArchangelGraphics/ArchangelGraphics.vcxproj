@@ -91,6 +91,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\ExtraVulkanLoaders.cpp" />
+    <ClCompile Include="Source\GPUFeaturesSupport.cpp" />
     <ClCompile Include="Source\HelloTriangleApplication.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
@@ -99,6 +100,7 @@
     <ClInclude Include="Internal_Libraries\glfw\include\GLFW\glfw3native.h" />
     <ClInclude Include="Internal_Libraries\glm\glm\mat4x4.hpp" />
     <ClInclude Include="Source\ExtraVulkanLoaders.hpp" />
+    <ClInclude Include="Source\GPUFeaturesSupport.hpp" />
     <ClInclude Include="Source\HelloTriangleApplication.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

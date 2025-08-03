@@ -15,6 +15,7 @@
 #include <stdexcept>
 #include <vector>
 #include <cstring>
+#include <map>
 
 class HelloTriangleApplication {
 public:
@@ -26,20 +27,29 @@ private:
 
 	void initWindow();
 
+	// ========== vulkan =============
 	void initVulkan();
-
+	// intance
 	void createInstance();
+	//debug
+	bool checkValidationLayerSupport(void);
+	void setupDebugMessenger(void);
+	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+	// device
+	void pickPhysicalDevice(void);
+	bool isDeviceSuitable(VkPhysicalDevice device);
+	void createLogicalDevice();
+	void createSurface();
 
 	void mainLoop();
 
 	void cleanup();
 
-	bool checkValidationLayerSupport(void);
+	
 
-	void setupDebugMessenger(void);
+	
 
-	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-
+	
 private:
 	GLFWwindow* m_Window;
 	const uint32_t m_Width = 800;
@@ -57,4 +67,11 @@ private:
 #endif
 
 	VkDebugUtilsMessengerEXT m_debugMessenger;
+
+	VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
+	std::map<int, VkPhysicalDevice> m_RatedDevices;
+	VkDevice m_LogicalDevice;
+	VkQueue m_GraphicsQueue;
+	VkQueue m_PresentQueue;
+	VkSurfaceKHR m_Surface;
 };

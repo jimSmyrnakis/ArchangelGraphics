@@ -1,6 +1,7 @@
 
 #include "HelloTriangleApplication.h"
 #include "ExtraVulkanLoaders.hpp"
+
   
 	void HelloTriangleApplication::run() {
 		initWindow();
@@ -41,7 +42,75 @@
 		
 		createInstance();
 		setupDebugMessenger();
+		createSurface();
+		pickPhysicalDevice();
+		createLogicalDevice();
+		
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	void HelloTriangleApplication::createInstance() {
 		VkApplicationInfo appInfo{};
@@ -56,15 +125,18 @@
 		// το pEngineName είναι το όνομα της μηχανής γραφικών (αν χρησιμοποιούμε κάποια), το engineVersion είναι η έκδοση της μηχανής γραφικών,
 		// και το apiVersion είναι η έκδοση του Vulkan API που χρησιμοποιούμε και καθορίζει ποιό API θα πρέπει ο driver  τουλάχιστον να υποστηρίζει.
 		
-		// check if validation layers that required are supported 
+		// ελέγχει όλα τα validation layers που έχουμε ζητήσει αν είναι διαθέσιμα στο σύστημα μας 
 		if (m_EnableValidationLayers && !checkValidationLayerSupport()) 
 			throw std::runtime_error("validation layers requested ,but not available!");
 		else 
 			std::cout << "validation layers are supported" << std::endl;
 		
+		// δημιουργεί το instance του Vulkan, το οποίο είναι το πρώτο βήμα για να ξεκινήσει η χρήση του Vulkan API.
 		VkInstanceCreateInfo insInfo{};
-		// set the validation layers extensions and use special extension for debug messages on instance 
-		// creation too
+		// Πρώτα απο όλα, δηλώνουμε όλα τα validation layers που θέλουμε να χρησιμοποιήσουμε.
+		// Ενώ το Vulkan API δεν παρέχει validation layers από μόνο του, καθώς και χρησιμοποιούμε
+		// την επέκταση VK_EXT_debug_utils για να δημιουργήσουμε ένα debug messenger που θα μας επιτρέπει να λαμβάνουμε μηνύματα από το Vulkan API
+		// ακομά και απο την δημιουργία του instance.
 		VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
 		if (m_EnableValidationLayers) {
 			insInfo.enabledLayerCount =	static_cast<uint32_t>(m_ValidationLayers.size());
@@ -209,6 +281,148 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include "GPUFeaturesSupport.hpp"
+
+	void HelloTriangleApplication::pickPhysicalDevice(void) {
+		// This function is used to select a physical device (GPU) that supports Vulkan.
+		// It will enumerate all available physical devices and check if they support
+		uint32_t deviceCount = 0;
+		vkEnumeratePhysicalDevices(m_Instance, &deviceCount, nullptr); 
+		// μας επιστρέφει των αριθμο διαθέσιμων φυσικών συσκευών (GPU) που υποστηρίζουν Vulkan.
+		if (deviceCount == 0) 
+			throw std::runtime_error("failed to find GPUs with Vulkan support :? !");
+		
+		std::vector<VkPhysicalDevice> devices(deviceCount);
+		vkEnumeratePhysicalDevices(m_Instance, &deviceCount, devices.data());
+		// τώρα πέρνουμε τις διαθέσημες κάρτες γραφικών συνολικά σε ένα vector.
+		
+		VkPhysicalDeviceProperties deviceProperties;
+		int maxScore = 0;
+		// ελεγχος αν περιέχει ιδιότητες που θέλουμε και πόσο απυτιχιμένα
+		for (auto device : devices) {
+			vkGetPhysicalDeviceProperties(device, &deviceProperties);
+			if (isDeviceSuitable(device)) {
+				// αν η συσκευή είναι κατάλληλη για την εφαρμογή μας, τότε την επιλέγουμε.
+
+				std::cout << "Found suitable GPU: " << deviceProperties.deviceName << std::endl;
+				int score = ratePhysicalDevice(device);
+				m_RatedDevices[score] = device;
+				if (maxScore < score) {
+					maxScore = score;
+					m_PhysicalDevice = device;
+				}
+
+			}
+			else continue;
+			
+		}
+
+	}
+
+	bool HelloTriangleApplication::isDeviceSuitable(VkPhysicalDevice device) {
+		// This function checks if the given physical device is suitable for our application.
+		// It will check if the device supports the required features and properties.
+		VkPhysicalDeviceProperties deviceProperties;
+		vkGetPhysicalDeviceProperties(device, &deviceProperties);
+
+		VkPhysicalDeviceFeatures deviceFeatures;
+		vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+		QueueFamilyIndices indices = findQueueFamilies(device , m_Surface);
+		return  deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
+				deviceFeatures.geometryShader 
+			&&	deviceFeatures.tessellationShader 
+			
+			&& indices.isComplete();
+		// Tessellation and geometry shaders are required for our application.
+	}
+
+#include <set>
+
+	void HelloTriangleApplication::createLogicalDevice() {
+		// This function creates a logical device that allows us to interact with the physical device.
+		// It will create a queue for graphics operations and a command pool for command buffers.
+		QueueFamilyIndices indices = findQueueFamilies(m_PhysicalDevice , m_Surface);
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+		std::set<uint32_t> uniqueQueueFamilies =
+		{ indices.graphicsFamily.value(), indices.presentFamily.value() };
+		float queuePriority = 1.0f;
+		for (uint32_t queueFamily : uniqueQueueFamilies)
+		{
+			VkDeviceQueueCreateInfo queueCreateInfo{};
+			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+			queueCreateInfo.queueFamilyIndex = queueFamily;
+			queueCreateInfo.queueCount = 1;
+			queueCreateInfo.pQueuePriorities = &queuePriority;
+			queueCreateInfos.push_back(queueCreateInfo);
+		}
+		
+		VkPhysicalDeviceFeatures deviceFeatures{};
+		deviceFeatures.geometryShader = VK_TRUE; // enable geometry shaders
+		deviceFeatures.tessellationShader = VK_TRUE; // enable tessellation shaders
+		VkDeviceCreateInfo createInfo{};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+		createInfo.pQueueCreateInfos = queueCreateInfos.data();
+		createInfo.queueCreateInfoCount = queueCreateInfos.size();
+		createInfo.pEnabledFeatures = &deviceFeatures;
+
+		createInfo.enabledExtensionCount = 0; // these is where logical device extensions can be added
+		if (m_EnableValidationLayers) {
+			createInfo.enabledLayerCount =
+			static_cast<uint32_t>(m_ValidationLayers.size());
+			createInfo.ppEnabledLayerNames = m_ValidationLayers.data();
+		}
+		else {
+			createInfo.enabledLayerCount = 0;
+		}
+
+		if (vkCreateDevice(m_PhysicalDevice, &createInfo, nullptr, &m_LogicalDevice) !=
+			VK_SUCCESS) {
+			throw std::runtime_error("failed to create logical device!");
+		}
+
+		vkGetDeviceQueue(m_LogicalDevice, indices.graphicsFamily.value(), 0, &m_GraphicsQueue);
+		vkGetDeviceQueue(m_LogicalDevice, indices.presentFamily.value(), 0, &m_PresentQueue);
+	}
+
+	void HelloTriangleApplication::createSurface() {
+		if (glfwCreateWindowSurface(m_Instance, m_Window, nullptr, &m_Surface) != VK_SUCCESS) {
+			throw std::runtime_error("failed to create window surface!");
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 
@@ -216,6 +430,8 @@
 
 
 	void HelloTriangleApplication::cleanup() {
+		vkDestroyDevice(m_LogicalDevice, nullptr);
+		vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
 		if (m_EnableValidationLayers) {
 			DestroyDebugUtilsMessengerEXT(m_Instance, m_debugMessenger, nullptr);
 		}
