@@ -17,6 +17,7 @@
 #include <cstring>
 #include <map>
 
+#include <set>
 class HelloTriangleApplication {
 public:
 	void run();
@@ -39,7 +40,10 @@ private:
 	void pickPhysicalDevice(void);
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	void createLogicalDevice();
+	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 	void createSurface();
+	void createSwapChain();
+	void createImageViews();
 
 	void mainLoop();
 
@@ -60,6 +64,10 @@ private:
 		"VK_LAYER_KHRONOS_validation"
 	};
 
+	const std::vector<const char*> m_PhysicalDeviceExtensions = {
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME
+	};
+
 #ifndef NDEBUG
 	bool m_EnableValidationLayers = true;
 #else
@@ -74,4 +82,9 @@ private:
 	VkQueue m_GraphicsQueue;
 	VkQueue m_PresentQueue;
 	VkSurfaceKHR m_Surface;
+	VkSwapchainKHR m_SwapChain;
+	std::vector<VkImage> m_SwapChainImages;
+	VkFormat m_SwapChainImageFormat;
+	VkExtent2D m_SwapChainExtent;
+	std::vector<VkImageView> m_SwapChainImageViews;
 };

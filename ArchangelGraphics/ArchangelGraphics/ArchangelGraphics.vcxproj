@@ -94,6 +94,7 @@
     <ClCompile Include="Source\GPUFeaturesSupport.cpp" />
     <ClCompile Include="Source\HelloTriangleApplication.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\VulkanSwapChain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internal_Libraries\glfw\include\GLFW\glfw3.h" />
@@ -102,6 +103,7 @@
     <ClInclude Include="Source\ExtraVulkanLoaders.hpp" />
     <ClInclude Include="Source\GPUFeaturesSupport.hpp" />
     <ClInclude Include="Source\HelloTriangleApplication.h" />
+    <ClInclude Include="Source\VulkanSwapChain.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
